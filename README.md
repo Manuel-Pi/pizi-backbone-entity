@@ -82,5 +82,6 @@ _Exemple:_
 	true
 	*/
 
-parse(data, options)
-validate(attrs, options)
+### parse(data, options)
+
+### validate(attrs, options)
