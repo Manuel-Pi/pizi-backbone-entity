@@ -84,9 +84,22 @@ _Exemple:_
 
 ### parse(data, options)
 
+If options.parse is not set to false, parse the attributes specified in the relations attribute. Use id's to fetch each relations using the corresponding constructor.
+
+_Exemple:_
+
+	var UserModel = Entity.Model.extend({
+	  relations : {
+	    transactions : {
+	      collection: TransactionCollection
+	    }
+	  }
+	});
+
+
 ### validate(attrs, options)
 
-Override Backbone.Model.validate
+Override Backbone.Model.validate .
 Check if the all the Date properties of the object declared in the dates Array, are valid dates. Used during the parse function. Return the name of the first date that is not valid else return nothing.
 
 _Exemple:_
