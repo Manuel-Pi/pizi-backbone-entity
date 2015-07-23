@@ -1,0 +1,8 @@
+{
+  "name": "pizi-backbone-entity",
+  "version": "0.0.1",
+  "main": "pizi-backbone-entity.js",
+  "ignore": [
+    "package.json"
+  ]
+}
