@@ -87,7 +87,7 @@ _Exemple:_
 If options.parse is not set to false, parse the attributes specified in the relations attribute. Use id's to fetch each relations using the corresponding constructor.
 
 _Exemple:_
-
+	
 	var UserModel = Entity.Model.extend({
 	  relations : {
 	    transactions : {
@@ -95,6 +95,16 @@ _Exemple:_
 	    }
 	  }
 	});
+
+	var user = new UserModel();
+
+	user.parse({transactions: [11, 4, 31]});
+
+	user.get("transactions") instanceof TransactionCollection;
+
+	/* Console output
+	true
+	 */
 
 
 ### validate(attrs, options)
