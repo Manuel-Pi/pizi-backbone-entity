@@ -3,8 +3,8 @@
   "homepage": "https://github.com/Manuel-Pi/pizi-backbone-entity",
   "main": "pizi-backbone-entity.js",
   "version": "0.0.1",
-  "author": "Manuel-Pi",
+  "authors": "Manuel-Pi",
   "ignore": [
   	"package.json"
-  ],
+  ]
 }
