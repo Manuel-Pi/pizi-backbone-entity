@@ -20,7 +20,7 @@ _Exemple:_
 	  }
 	});
 
-### dates [array]
+### dates [Array]
 
 Array containg the name of Date type attributes. Used to correctly set Date type when loading model from storage.
 
@@ -85,3 +85,24 @@ _Exemple:_
 ### parse(data, options)
 
 ### validate(attrs, options)
+
+Override Backbone.Model.validate
+Check if the all the Date properties of the object declared in the dates Array, are valid dates. Used during the parse function. Return the name of the first date that is not valid else return nothing.
+
+_Exemple:_
+
+	var UserModel = Entity.Model.extend({
+	  dates : ['creation', 'lastUpdate']
+	  }
+	});
+
+	var user = new UserModel(); 
+	user.set({date: new Date(), creation: new Date(), lastUpdate: 'notaDate'});
+
+	/*The 'date' attribute will be automaticly checked, no need to add it to the dates Array
+
+	user.validate();
+
+	 /* Console output
+	 'lastUpdate'
+	 */

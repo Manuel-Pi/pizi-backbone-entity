@@ -23,7 +23,7 @@
 			var dates = _.pick(attrs, this.dates.concat(['date']));
 			for(var date in dates){
 				if(dates[date] && !(dates[date] instanceof Date)){
-					return "date (" + date + ") is not valid!";
+					return date;
 				}
 			}
 		},
