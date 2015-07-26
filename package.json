@@ -8,8 +8,5 @@
   "version": "0.0.1",
   "authors": [
   	"Manuel-Pi"
-  	],
-  "ignore": [
-  	"package.json"
-  ]
+  	]
 }
