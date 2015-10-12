@@ -1,12 +1,22 @@
 {
   "name": "pizi-backbone-entity",
   "homepage": "https://github.com/Manuel-Pi/pizi-backbone-entity",
-  "main": "pizi-backbone-entity.js",
+  "main": "build/pizi-backbone-entity.js",
   "dependencies": {
     "backbone": ">=1.1.2"
   },
   "version": "0.0.1",
   "authors": [
-  	"Manuel-Pi"
-  	]
+    "Manuel-Pi"
+  ],
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-babel": "^5.0.3",
+    "grunt-contrib-clean": "^0.6.0",
+    "grunt-contrib-copy": "^0.8.1",
+    "grunt-contrib-jshint": "^0.11.3",
+    "grunt-npmcopy": "^0.1.0",
+    "jquery": "^2.1.4",
+    "pizi-backbone-localStorage": "manuel-pi/pizi-backbone-localStorage"
+  }
 }

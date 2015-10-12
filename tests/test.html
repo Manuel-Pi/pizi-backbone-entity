@@ -1,0 +1,167 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>pizi-backbone-entity test</title>
+  <link rel="stylesheet" href="//code.jquery.com/qunit/qunit-1.18.0.css">
+</head>
+<body>
+  <div id="qunit"></div>
+  <div id="qunit-fixture"></div>
+  <script src="//code.jquery.com/jquery-2.1.4.js"></script>
+  <script src="//code.jquery.com/qunit/qunit-1.18.0.js"></script>
+  <script src="underscore.js"></script>
+  <script src="jquery.js"></script>
+  <script src="backbone.js"></script>
+  <script src="pizi-localStorage.js"></script>
+  <script src="pizi-backbone-localStorage.js"></script>
+  <script src="pizi-backbone-entity.js"></script>
+  <script>
+	  	
+		var global = this;  
+		global.piziBackboneLocalStorage.apply({session: false});
+		/**
+		* The transaction Model
+		* @type {Backbone.Model}
+		*/
+		var TransactionModel = global.piziBackboneEntity.Model.extend({
+			className : 'transaction',
+			defaults : {
+				/* The date of the transaction */
+				date: null,
+				/* The amout of the transaction*/
+				amount : 0,
+				/* The */
+				entity : null,
+				/* The location where the transaction takes place */
+				location: null,
+				/* Is the transaction reported on the account */
+				isDone: false,
+				/* To group transaction */
+				tag: null
+			}
+		});
+	
+		/**
+		* The transaction Collection
+		* @type {Backbone.Collection}
+		*/
+		var TransactionCollection = global.piziBackboneEntity.Collection.extend({
+			/* Used to instanciate a new Model from Json (need to override if subtypes)*/
+			model : TransactionModel
+		});  
+			
+		/* The user Model
+		* @type {Backbone.Model}
+		*/
+		var UserModel = global.piziBackboneEntity.Model.extend({
+			className : 'user',
+			defaults : {
+				/* The date of the transaction */
+				date: new Date(),
+				/* The amout of the transaction*/
+				login : null,
+				/* The */
+				password : null,
+	
+				transactions : []
+			},
+			relations : {
+				transactions : {
+					collection: TransactionCollection
+				}
+			},
+			idAttribute : 'login',
+			initialize : function(attrs, options){
+			}
+		});
+	
+		/**
+		* The transaction Collection
+		* @type {Backbone.Collection}
+		*/
+		var UserCollection = global.piziBackboneEntity.Collection.extend({
+			/* Used to instanciate a new Model from Json (need to override if subtypes)*/
+			model : UserModel
+		});
+		
+		
+		var user = new UserModel({
+			date: new Date(),
+			login: "Manuel Pi",
+			password: "pizi",
+			tag: "Club"
+		});
+		
+		var transacs = new TransactionCollection();
+		transacs.add({
+			id: "ouistiti",
+			date: new Date(),
+			amount : 200,
+			entity : "Auchan",
+			location: "Balma",
+			isDone: false,
+			tag: "Food"
+		});
+		transacs.add({
+			id: "golum",
+			date: new Date(),
+			amount : 200,
+			entity : "Aposia",
+			location: "Montaudran",
+			isDone: false,
+			tag: "Club"
+		});
+		
+		user.set({
+			transactions: transacs
+		});
+		  
+		QUnit.test( "Root module declaration", function( assert ) {
+			assert.ok( global.piziBackboneEntity, "Module initialized!" );
+			assert.ok( global.piziBackboneEntity.Model, "Model function available!" );
+			assert.ok( global.piziBackboneEntity.Collection, "Collection function available!" );
+		});
+		
+		
+	  	QUnit.test( "Check to JSON all", function( assert ) {
+			var json = user.toJSON({all: "true"});
+			assert.ok(_.isEqual(_.pick(user.get('transactions').at(0), "id"), json.transactions[0]));
+			assert.ok(_.isEqual(_.pick(user.get('transactions').at(1), "id"), json.transactions[1]));
+	  	});
+		
+		QUnit.test( "Check save / fetch", function( assert ) {
+			var fetchDone = assert.async();
+			user.save(null, {
+				success: function(){
+					var userRetrieved = new UserModel({login: "Manuel Pi"});
+					userRetrieved.fetch({
+						success: function(){
+							assert.equal(userRetrieved.get('transactions').attributes, transacs.attributes);
+							fetchDone();
+						}
+					});
+				}
+			});
+	  	});
+		
+		QUnit.test( "Check save / fetch all", function( assert ) {
+			var fetchDone = assert.async();
+			user.save(null, {
+				all: true,
+				success: function(){
+					var userRetrieved = new UserModel({login: "Manuel Pi"});
+					userRetrieved.fetch({
+						all: true,
+						success: function(){
+							assert.equal(userRetrieved.get('transactions').attributes, transacs.attributes);
+							fetchDone();
+						}
+					});
+				}
+			});
+	  	});
+		
+		
+  </script>
+</body>
+</html>
